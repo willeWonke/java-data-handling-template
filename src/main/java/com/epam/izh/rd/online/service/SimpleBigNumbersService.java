@@ -13,10 +13,8 @@ public class SimpleBigNumbersService implements BigNumbersService {
      */
     @Override
     public BigDecimal getPrecisionNumber(int a, int b, int range) {
-        BigDecimal varA = new BigDecimal(a);
-        BigDecimal varB = new BigDecimal(b);
-
-        return varA.divide(varB, range, BigDecimal.ROUND_DOWN);
+        BigDecimal result = new BigDecimal(a).divide(new BigDecimal(b),range,1);
+        return result;
     }
 
     /**
@@ -27,18 +25,26 @@ public class SimpleBigNumbersService implements BigNumbersService {
      */
     @Override
     public BigInteger getPrimaryNumber(int range) {
-        int[] arr = new int[range + 1];
-        arr[0] = 2;
-        int number = 3;
-        int index = 1;
-        while (arr[range] == 0) {
-            BigInteger bigInteger = BigInteger.valueOf(number);
-            if (bigInteger.isProbablePrime((int) Math.log(number))) {
-                arr[index] = number;
-                index++;
+        BigInteger a = BigInteger.valueOf(2);
+        BigInteger result = a;
+        for(int i = 0; i <= range; i++){
+            boolean b = true;
+            while (b) {
+                boolean c = true;
+                for (int j = 2; j < a.intValue(); j++) {
+                    if (a.intValue() % j == 0) {
+                        c = false;
+                        break;
+                    }
+                }
+                if(c){
+                    b = false;
+                    result = a;
+                }
+                BigInteger d = new BigInteger("1");
+                a = new BigInteger(String.valueOf(a.add(d)));
             }
-            number += 2;
         }
-        return BigInteger.valueOf(arr[range]);
+        return result;
     }
 }
